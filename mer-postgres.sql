@@ -155,15 +155,45 @@ create table "group"
     "updated_at"  timestamp
 );
 
+create table "policy"
+(
+    "id"          SERIAL PRIMARY KEY,
+    "company_id"  int NOT NULL,
+    "name"        varchar,
+    "description" varchar,
+    "created_at"  timestamp,
+    "updated_at"  timestamp
+);
+
+CREATE TYPE "curve_abc" AS ENUM ('A', 'B', 'C');
+CREATE TYPE "curve_pqr" AS ENUM ('P', 'Q', 'R');
+CREATE TYPE "curve_xyz" AS ENUM ('X', 'Y', 'Z');
+CREATE TYPE "curve_123" AS ENUM ('1', '2', '3');
+
+CREATE TYPE "sku_status_erp" AS ENUM ('active', 'inactive');
+CREATE TYPE "sku_status_system" AS ENUM ('active', 'inactive');
+CREATE TYPE "sku_status_analyzed" AS ENUM ('active', 'inactive');
+
+CREATE TYPE "sku_life_cicle" AS ENUM ('new', 'mature', 'decaying');
+
 CREATE TABLE "item"
 (
-    "id"                SERIAL PRIMARY KEY,
-    "description"       varchar   NOT NULL,
-    "erp_item_id"       int       NOT NULL,
-    "unit_measurement"  int       NOT NULL,
-    "unit_value"        float     NOT NULL,
-    "created_at"        timestamp NOT NULL,
-    "updated_at"        timestamp NOT NULL
+    "id"               SERIAL PRIMARY KEY,
+    "description"      varchar             NOT NULL,
+    "erp_item_id"      int                 NOT NULL,
+    "unit_measurement" int                 NOT NULL,
+    "unit_value"       float               NOT NULL,
+    "curve_abc"        curve_abc           NOT NULL,
+    "curve_pqr"        curve_pqr           NOT NULL,
+    "curve_xyz"        curve_xyz           NOT NULL,
+    "curve_123"        curve_123           NOT NULL,
+    "erp_status"       sku_status_erp      NOT NULL,
+    "system_status"    sku_status_system   NOT NULL,
+    "analyzed_status"  sku_status_analyzed NOT NULL,
+    "sku_life_cicle"   sku_life_cicle      NOT NULL,
+    "policy_id"        int                 NOT NULL,
+    "created_at"       timestamp           NOT NULL,
+    "updated_at"       timestamp           NOT NULL
 );
 
 CREATE TABLE "group_item"
@@ -418,6 +448,13 @@ ALTER TABLE "unit_measurement"
 ALTER TABLE "item"
     ADD FOREIGN KEY ("unit_measurement") REFERENCES "unit_measurement" ("id");
 
+ALTER TABLE "policy"
+    ADD FOREIGN KEY ("company_id") REFERENCES "company" ("id");
+
+ALTER TABLE "item"
+    ADD FOREIGN KEY ("policy_id") REFERENCES "policy" ("id");
+
+
 insert into company ("name", "registration_number", "key", "dtu", "maintenance_mode", "app_link", "avatar", "language",
                      "created_at", "updated_at")
 values ('Hospital Albert Sabin', '12345678901234', '123456', 'VQBiZSBiZ1BYVWrqDurwDkBsV5B7VEXG', 0, 'A', 'avatar.png',
@@ -453,4 +490,3 @@ values (1, 'mail.bionexo.com.br', 'infra@bionexo.com', 'VQXGZSX7Z1BeVWBODurKDkXe
 
 
 ----------------------------------------------
-
