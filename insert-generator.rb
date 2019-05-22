@@ -43,7 +43,7 @@ def build_item(supplier_id, purchase_id)
   end
 end
 
-def build_purchase(supplier_id)
+def build_purchases(supplier_id)
   (1..1).each do |purchase_id|
     puts "insert into \"purchase_req\" (num_req, date_req, created_at, updated_at) "\
      "values(#{rand(10000...99999)}, '2018-10-18 18:03:03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);"
@@ -56,23 +56,44 @@ def build_purchase(supplier_id)
   end
 end
 
-puts "INSERT INTO unit_measurement (company_id, acronym, description, created_at, updated_at)"\
+def build_suppliers()
+  suppliers = [
+    { name: 'Bi Materiais', cnpj: '26074505000194' },
+    { name: 'Parma Pizza', cnpj: '08807700000102' },
+    { name: 'O Homem da Casa', cnpj: '25391522000192' },
+    { name: 'Pemom', cnpj: '18227733000390' },
+    { name: 'So Gesso', cnpj: '12580433000142' }
+  ]
+  
+  suppliers.each_with_index do |supplier, index|
+    puts "-- Inicio supplier #{index}"
+    puts "insert into \"supplier\" (company_id, cnpj, company_name, trading_name, address, created_at, updated_at)"\
+         " values (1, \'#{supplier[:cnpj]}\', \'#{supplier[:name]}\', \'#{supplier[:name]}\', 'Rua...', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);"
+  
+    build_purchases(index + 1)
+    puts "-- Fim supplier #{index}"
+    puts ''
+  end
+end
+
+def build_companies()
+  puts "INSERT INTO unit_measurement (company_id, acronym, description, created_at, updated_at)"\
      "VALUES (1, 'un', 'unidade', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);"
 
-suppliers = [
-  { name: 'Bi Materiais', cnpj: '26074505000194' },
-  { name: 'Parma Pizza', cnpj: '08807700000102' },
-  { name: 'O Homem da Casa', cnpj: '25391522000192' },
-  { name: 'Pemom', cnpj: '18227733000390' },
-  { name: 'So Gesso', cnpj: '12580433000142' }
-]
+  puts "insert into company (name, registration_number, key, dtu, maintenance_mode, "\
+                            "app_link, avatar, language, created_at, updated_at) "\
+        "values ('Hospital Albert Sabin', '12345678901234', '123456', 'VQBiZSBiZ1BYVWrqDurwDkBsV5B7VEXG', 0, 'A', 'avatar.png', "\
+        "'pt-BR', current_timestamp, current_timestamp);";
 
-suppliers.each_with_index do |supplier, index|
-  puts "-- Inicio supplier #{index}"
-  puts "insert into \"supplier\" (company_id, cnpj, company_name, trading_name, address, created_at, updated_at)"\
-       " values (1, \'#{supplier[:cnpj]}\', \'#{supplier[:name]}\', \'#{supplier[:name]}\', 'Rua...', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);"
+  puts "insert into establishment (description, acronym, company_id, email, created_at, updated_at) "\
+      "values ('HNSG', 'HNSG', 1, 'pnx@bionexo.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);";
 
-  build_purchase(index + 1)
-  puts "-- Fim supplier #{index}"
-  puts ''
+  puts "insert into email_company (company_id, smtp_server, smtp_user, smtp_pass, smtp_email_address, smtp_port, smtp_ssl, "\
+                                  "base_test, created_at, updated_at) "\
+        "values (1, 'mail.bionexo.com.br', 'infra@bionexo.com', 'VQXGZSX7Z1BeVWBODurKDkXe', 'infra@bionexo.com', 25, 0, 0, "\
+                "CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);";
+  
+  build_suppliers()
 end
+
+build_companies()
