@@ -72,7 +72,7 @@ suppliers.each_with_index do |supplier, index|
   puts "insert into \"supplier\" (company_id, cnpj, company_name, trading_name, address, created_at, updated_at)"\
        " values (1, \'#{supplier[:cnpj]}\', \'#{supplier[:name]}\', \'#{supplier[:name]}\', 'Rua...', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);"
 
-  build_purchase(index)
+  build_purchase(index + 1)
   puts "-- Fim supplier #{index}"
   puts ''
 end
