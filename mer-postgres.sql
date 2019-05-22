@@ -418,67 +418,39 @@ ALTER TABLE "unit_measurement"
 ALTER TABLE "item"
     ADD FOREIGN KEY ("unit_measurement") REFERENCES "unit_measurement" ("id");
 
-insert into company ("name",
-                     "registration_number",
-                     "key",
-                     "dtu",
-                     "maintenance_mode",
-                     "app_link",
-                     "avatar",
-                     "language",
-                     "created_at",
-                     "updated_at")
-values ('Hospital Albert Sabin',
-        '12345678901234',
-        '123456',
-        'VQBiZSBiZ1BYVWrqDurwDkBsV5B7VEXG',
-        0,
-        'A',
-        'avatar.png',
-        'pt-BR',
-        current_timestamp,
-        current_timestamp);
+insert into company ("name", "registration_number", "key", "dtu", "maintenance_mode", "app_link", "avatar", "language",
+                     "created_at", "updated_at")
+values ('Hospital Albert Sabin', '12345678901234', '123456', 'VQBiZSBiZ1BYVWrqDurwDkBsV5B7VEXG', 0, 'A', 'avatar.png',
+        'pt-BR', current_timestamp, current_timestamp);
 
 
 insert into establishment (description, acronym, company_id, email, created_at, updated_at)
 values ('HNSG', 'HNSG', 1, 'pnx@bionexo.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-insert into "email_company" (company_id,
-                             smtp_server,
-                             smtp_user,
-                             smtp_pass,
-                             smtp_email_address,
-                             smtp_port,
-                             smtp_ssl,
-                             base_test,
-                             created_at,
-                             updated_at)
-values (1,
-        'mail.bionexo.com.br',
-        'infra@bionexo.com',
-        'VQXGZSX7Z1BeVWBODurKDkXe',
-        'infra@bionexo.com',
-        25,
-        0,
-        0,
-        CURRENT_TIMESTAMP,
-        CURRENT_TIMESTAMP);
+insert into "email_company" (company_id, smtp_server, smtp_user, smtp_pass, smtp_email_address, smtp_port, smtp_ssl,
+                             base_test, created_at, updated_at)
+values (1, 'mail.bionexo.com.br', 'infra@bionexo.com', 'VQXGZSX7Z1BeVWBODurKDkXe', 'infra@bionexo.com', 25, 0, 0,
+        CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-insert into "supplier" (company_id, cnpj, company_name, trading_name, address, created_at, updated_at)
-values (1, '26074505000194', 'Bi Materiais', 'Bi Materiais', 'Rua...', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+-- insert into "supplier" (company_id, cnpj, company_name, trading_name, address, created_at, updated_at)
+-- values (1, '26074505000194', 'Bi Materiais', 'Bi Materiais', 'Rua...', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- insert into "purchase_req" (num_req, date_req, created_at, updated_at)
+-- values(53780, '2018-10-18 18:03:03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- insert into "purchase_order" (company_id, num_order, establishment_id, supplier_id, date_order, date_exp, date_real,
+--                               purchase_req_id, created_at, updated_at)
+-- values (1, 103019, 1, 1, '2017-01-06 00:00:00', '2017-01-06 00:00:00', NULL, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- INSERT INTO unit_measurement (company_id, acronym, description, created_at, updated_at)
+-- VALUES (1, 'un', 'unidade', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- insert into "item" (description, erp_item_id, unit_measurement, unit_value, created_at, updated_at)
+-- values ('fibrobroncoscopio ', 165372, 1, 40.0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- insert into "purchase_order_item" (qty_parc, qty_rec, purchase_order_id, item_id, created_at, updated_at)
+-- values (1, NULL, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-insert into "purchase_req" (num_req, date_req, created_at, updated_at)
-values(53780, '2018-10-18 18:03:03', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-insert into "purchase_order" (company_id, num_order, establishment_id, supplier_id, date_order, date_exp, date_real,
-                              purchase_req_id, created_at, updated_at)
-values (1, 103019, 1, 1, '2017-01-06 00:00:00', '2017-01-06 00:00:00', NULL, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+----------------------------------------------
 
-INSERT INTO unit_measurement (company_id, acronym, description, created_at, updated_at)
-VALUES (1, 'un', 'unidade', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
-insert into "item" (description, erp_item_id, unit_measurement, unit_value, created_at, updated_at)
-values ('fibrobroncoscopio ', 165372, 1, 1, 40.0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
-insert into "purchase_order_item" (qty_parc, qty_rec, purchase_order_id, item_id, created_at, updated_at)
-values (1, NULL, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
