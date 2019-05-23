@@ -345,15 +345,48 @@ CREATE TABLE "tolerance"
     "updated_at" timestamp
 );
 
-CREATE TABLE unit_measurement
+CREATE TABLE "unit_measurement"
 (
     "id"          SERIAL PRIMARY KEY,
-    "company_id"  int NOT NULL,
-    "acronym"     varchar,
+    "company_id"  int       NOT NULL,
+    "acronym"     varchar   NOT NULL,
     "description" varchar,
-    "created_at"  timestamp,
-    "updated_at"  timestamp
+    "created_at"  timestamp NOT NULL,
+    "updated_at"  timestamp NOT NULL
 );
+
+CREATE TABLE "grouping"
+(
+    "id"         SERIAL PRIMARY KEY,
+    "company_id" int       NOT NULL,
+    "name"       varchar   NOT NULL,
+    "created_at" timestamp NOT NULL,
+    "updated_at" timestamp NOT NULL
+);
+
+CREATE TABLE "group"
+(
+    "id"          SERIAL PRIMARY KEY,
+    "company_id"  int       NOT NULL,
+    "grouping_id" int       NOT NULL,
+    "name"        varchar   NOT NULL,
+    "created_at"  timestamp NOT NULL,
+    "updated_at"  timestamp NOT NULL
+);
+
+CREATE TABLE "group_item"
+(
+    "id"          SERIAL PRIMARY KEY,
+    "company_id"  int       NOT NULL,
+    "grouping_id" int       NOT NULL,
+    "group_id"    int       NOT NULL,
+    "item_id"     int       NOT NULL,
+    "created_at"  timestamp NOT NULL,
+    "updated_at"  timestamp NOT NULL
+);
+
+CREATE UNIQUE INDEX unique_group_per_grouping
+    ON teste (grouping_id, item_id);
 
 ALTER TABLE "supplier"
     ADD FOREIGN KEY ("company_id") REFERENCES "company" ("id");
@@ -454,20 +487,40 @@ ALTER TABLE "policy"
 ALTER TABLE "item"
     ADD FOREIGN KEY ("policy_id") REFERENCES "policy" ("id");
 
+ALTER TABLE "grouping"
+    ADD FOREIGN KEY ("company_id") REFERENCES "company" ("id");
 
-insert into company ("name", "registration_number", "key", "dtu", "maintenance_mode", "app_link", "avatar", "language",
-                     "created_at", "updated_at")
-values ('Hospital Albert Sabin', '12345678901234', '123456', 'VQBiZSBiZ1BYVWrqDurwDkBsV5B7VEXG', 0, 'A', 'avatar.png',
-        'pt-BR', current_timestamp, current_timestamp);
+ALTER TABLE "group"
+    ADD FOREIGN KEY ("company_id") REFERENCES "company" ("id");
 
+ALTER TABLE "group"
+    ADD FOREIGN KEY ("grouping_id") REFERENCES "grouping" ("id");
 
-insert into establishment (description, acronym, company_id, email, created_at, updated_at)
-values ('HNSG', 'HNSG', 1, 'pnx@bionexo.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+ALTER TABLE "group_item"
+    ADD FOREIGN KEY ("company_id") REFERENCES "company" ("id");
 
-insert into "email_company" (company_id, smtp_server, smtp_user, smtp_pass, smtp_email_address, smtp_port, smtp_ssl,
-                             base_test, created_at, updated_at)
-values (1, 'mail.bionexo.com.br', 'infra@bionexo.com', 'VQXGZSX7Z1BeVWBODurKDkXe', 'infra@bionexo.com', 25, 0, 0,
-        CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+ALTER TABLE "group_item"
+    ADD FOREIGN KEY ("grouping_id") REFERENCES "grouping" ("id");
+
+ALTER TABLE "group_item"
+    ADD FOREIGN KEY ("group_id") REFERENCES "group" ("id");
+
+ALTER TABLE "group_item"
+    ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
+
+-- insert into company ("name", "registration_number", "key", "dtu", "maintenance_mode", "app_link", "avatar", "language",
+--                      "created_at", "updated_at")
+-- values ('Hospital Albert Sabin', '12345678901234', '123456', 'VQBiZSBiZ1BYVWrqDurwDkBsV5B7VEXG', 0, 'A', 'avatar.png',
+--         'pt-BR', current_timestamp, current_timestamp);
+--
+--
+-- insert into establishment (description, acronym, company_id, email, created_at, updated_at)
+-- values ('HNSG', 'HNSG', 1, 'pnx@bionexo.com', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--
+-- insert into "email_company" (company_id, smtp_server, smtp_user, smtp_pass, smtp_email_address, smtp_port, smtp_ssl,
+--                              base_test, created_at, updated_at)
+-- values (1, 'mail.bionexo.com.br', 'infra@bionexo.com', 'VQXGZSX7Z1BeVWBODurKDkXe', 'infra@bionexo.com', 25, 0, 0,
+--         CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- insert into "supplier" (company_id, cnpj, company_name, trading_name, address, created_at, updated_at)
 -- values (1, '26074505000194', 'Bi Materiais', 'Bi Materiais', 'Rua...', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
