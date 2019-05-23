@@ -178,22 +178,22 @@ CREATE TYPE "sku_life_cicle" AS ENUM ('new', 'mature', 'decaying');
 
 CREATE TABLE "item"
 (
-    "id"               SERIAL PRIMARY KEY,
-    "description"      varchar             NOT NULL,
-    "erp_item_id"      int                 NOT NULL,
-    "unit_measurement" int                 NOT NULL,
-    "unit_value"       float               NOT NULL,
-    "curve_abc"        curve_abc           NOT NULL,
-    "curve_pqr"        curve_pqr           NOT NULL,
-    "curve_xyz"        curve_xyz           NOT NULL,
-    "curve_123"        curve_123           NOT NULL,
-    "erp_status"       sku_status_erp      NOT NULL,
-    "system_status"    sku_status_system   NOT NULL,
-    "analyzed_status"  sku_status_analyzed NOT NULL,
-    "sku_life_cicle"   sku_life_cicle      NOT NULL,
-    "policy_id"        int                 NOT NULL,
-    "created_at"       timestamp           NOT NULL,
-    "updated_at"       timestamp           NOT NULL
+    "id"                  SERIAL PRIMARY KEY,
+    "description"         varchar             NOT NULL,
+    "erp_item_id"         int                 NOT NULL,
+    "unit_measurement_id" int                 NOT NULL,
+    "unit_value"          float               NOT NULL,
+    "curve_abc"           curve_abc           NOT NULL,
+    "curve_pqr"           curve_pqr           NOT NULL,
+    "curve_xyz"           curve_xyz           NOT NULL,
+    "curve_123"           curve_123           NOT NULL,
+    "erp_status"          sku_status_erp      NOT NULL,
+    "system_status"       sku_status_system   NOT NULL,
+    "analyzed_status"     sku_status_analyzed NOT NULL,
+    "sku_life_cicle"      sku_life_cicle      NOT NULL,
+    "policy_id"           int                 NOT NULL,
+    "created_at"          timestamp           NOT NULL,
+    "updated_at"          timestamp           NOT NULL
 );
 
 CREATE TABLE "group_item"
@@ -446,7 +446,7 @@ ALTER TABLE "unit_measurement"
     ADD FOREIGN KEY ("company_id") REFERENCES "company" ("id");
 
 ALTER TABLE "item"
-    ADD FOREIGN KEY ("unit_measurement") REFERENCES "unit_measurement" ("id");
+    ADD FOREIGN KEY ("unit_measurement_id") REFERENCES "unit_measurement" ("id");
 
 ALTER TABLE "policy"
     ADD FOREIGN KEY ("company_id") REFERENCES "company" ("id");

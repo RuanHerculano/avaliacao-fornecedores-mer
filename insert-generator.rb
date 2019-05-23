@@ -33,7 +33,7 @@ def build_item(supplier_id, purchase_id)
   ]
 
   items.each do |item|
-    puts "insert into \"item\" (description, erp_item_id, unit_measurement, unit_value, created_at, updated_at)
+    puts "insert into \"item\" (description, erp_item_id, unit_measurement_id, unit_value, created_at, updated_at)
           values (\'#{item}\', #{rand(100000...999999)}, 1, 40.0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);"
   end
 
